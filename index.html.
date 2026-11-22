@@ -1,0 +1,228 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>HUSTLEHUB SA</title>
+<style>
+:root{--bg:#0b1220;--panel:#141f32;--panel2:#1b2940;--text:#f5f7fb;--muted:#aab6c9;--gold:#f4b942;--green:#39c98a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}
+header{padding:18px 16px;background:#101827;border-bottom:1px solid #28364b;position:sticky;top:0;z-index:2}
+.brand{font-weight:900;letter-spacing:1px;font-size:21px}
+.brand span{color:var(--gold)}
+.tag{color:var(--muted);font-size:12px;margin-top:3px}
+nav{display:flex;gap:8px;overflow:auto;padding:10px 12px;background:#101827}
+nav button,.btn{border:0;border-radius:10px;padding:10px 13px;background:var(--panel2);color:var(--text);font-weight:650;white-space:nowrap}
+nav button.active,.primary{background:var(--gold);color:#172033}
+main{max-width:900px;margin:auto;padding:16px}
+.hero{padding:22px;border-radius:18px;background:linear-gradient(135deg,#263c5a,#172338);margin-bottom:16px}
+h1{font-size:25px;margin:0 0 8px}
+h2{font-size:19px;margin:0 0 12px}
+p{color:var(--muted);line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid #26364d;border-radius:15px;padding:15px}
+.card .emoji{font-size:25px}
+.card h3{margin:8px 0 4px;font-size:15px}
+.card p{font-size:12px;margin:0}
+section.page{display:none}
+section.page.active{display:block}
+label{display:block;color:var(--muted);font-size:13px;margin:12px 0 5px}
+input,textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid #34445d;background:#0e192a;color:white;font:inherit}
+textarea{min-height:90px;resize:vertical}
+.btn{margin-top:10px;cursor:pointer}
+.output{white-space:pre-wrap;background:#0e192a;padding:13px;border-radius:10px;margin-top:12px;min-height:45px}
+.small{font-size:12px;color:var(--muted)}
+.service{display:flex;justify-content:space-between;gap:8px;align-items:center}
+canvas{width:100%;max-width:420px;background:white;border-radius:10px;display:block;margin-top:12px}
+footer{text-align:center;color:#8492a8;font-size:12px;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">HUSTLEHUB <span>SA</span></div>
+<div class="tag">Your mobile business & creator studio</div>
+</header>
+
+<nav id="nav">
+<button class="active" data-page="home">Home</button>
+<button data-page="services">Services</button>
+<button data-page="studio">Creator studio</button>
+<button data-page="cv">CV builder</button>
+<button data-page="orders">My hustle</button>
+</nav>
+
+<main>
+<section id="home" class="page active">
+<div class="hero">
+<h1>Turn your skills into a hustle.</h1>
+<p>Make content, prepare documents and organise the services you offer — all from your phone.</p>
+<button class="btn primary" onclick="show('studio')">Open creator studio</button>
+</div>
+<h2>Your business toolkit</h2>
+<div class="grid">
+<div class="card"><div class="emoji">🎬</div><h3>Video services</h3><p>Plan edits and prepare client briefs.</p></div>
+<div class="card"><div class="emoji">🎨</div><h3>Posters & logos</h3><p>Create a simple promo graphic.</p></div>
+<div class="card"><div class="emoji">📱</div><h3>Social content</h3><p>Draft captions and post ideas.</p></div>
+<div class="card"><div class="emoji">📄</div><h3>CVs & documents</h3><p>Build a clean CV draft.</p></div>
+</div>
+<p class="small">Starter version: works in your browser. Your drafts stay on this device when browser storage is available.</p>
+</section>
+
+<section id="services" class="page">
+<h2>Services you can offer</h2>
+<div class="card service"><div><b>Short-form video editing</b><p>Reels, TikToks and status videos</p></div><b>Set your price</b></div>
+<div class="card service"><div><b>Posters & thumbnails</b><p>Promotions, events and YouTube</p></div><b>Set your price</b></div>
+<div class="card service"><div><b>Social media content</b><p>Captions, content ideas and bios</p></div><b>Set your price</b></div>
+<div class="card service"><div><b>CV design</b><p>Professional entry-level CVs</p></div><b>Set your price</b></div>
+<div class="card service"><div><b>Voice-over scripts</b><p>Short adverts and narration scripts</p></div><b>Set your price</b></div>
+<p class="small">This is your service catalogue, not a live marketplace. Customers cannot place or pay for orders until a secure backend is connected.</p>
+</section>
+
+<section id="studio" class="page">
+<h2>Creator studio</h2>
+<label>What are you creating?</label>
+<select id="kind">
+<option value="caption">Social media caption</option>
+<option value="promo">Business promotion text</option>
+<option value="video">Short video script</option>
+<option value="ideas">Content ideas</option>
+</select>
+<label>Business, product or topic</label>
+<input id="topic" placeholder="e.g. sneaker cleaning service">
+<label>Details or special offer</label>
+<textarea id="details" placeholder="e.g. Based in Johannesburg, weekend bookings available"></textarea>
+<button class="btn primary" onclick="generate()">Create draft</button>
+<div id="draft" class="output">Your draft will appear here.</div>
+<button class="btn" onclick="copyDraft()">Copy draft</button>
+<hr style="border-color:#28364b;margin:22px 0">
+<h2>Quick promo poster</h2>
+<label>Headline</label>
+<input id="headline" placeholder="YOUR BUSINESS NAME">
+<label>Offer / contact line</label>
+<input id="subline" placeholder="Book today • WhatsApp 07...">
+<button class="btn primary" onclick="poster()">Preview poster</button>
+<button class="btn" onclick="downloadPoster()">Download poster</button>
+<canvas id="poster" width="900" height="1100"></canvas>
+</section>
+
+<section id="cv" class="page">
+<h2>Simple CV builder</h2>
+<label>Full name</label><input id="cvname" placeholder="Your name">
+<label>Phone and email</label><input id="cvcontact" placeholder="Contact details">
+<label>About you</label><textarea id="cvabout" placeholder="A short professional summary"></textarea>
+<label>Skills</label><textarea id="cvskills" placeholder="Customer service, Canva, communication..."></textarea>
+<label>Education and experience</label><textarea id="cvhistory" placeholder="School, certificates, work or volunteer experience"></textarea>
+<button class="btn primary" onclick="makeCV()">Build CV draft</button>
+<div id="cvout" class="output"></div>
+<button class="btn" onclick="copyCV()">Copy CV</button>
+</section>
+
+<section id="orders" class="page">
+<h2>My hustle board</h2>
+<p>Keep a simple record of potential client jobs on this device.</p>
+<label>Client / job</label>
+<input id="job" placeholder="e.g. Thabo — birthday poster">
+<label>Price in rand (R)</label>
+<input id="price" type="number" min="0" placeholder="150">
+<button class="btn primary" onclick="addJob()">Add job</button>
+<div id="jobs" class="output"></div>
+<p class="small">This is a private local list, not a payment or order system. Back up important client details separately.</p>
+</section>
+</main>
+
+<footer>HUSTLEHUB SA • Starter build • Made for mobile</footer>
+
+<script>
+const pages=[...document.querySelectorAll('section.page')];
+
+function show(id){
+pages.forEach(p=>p.classList.toggle('active',p.id===id));
+document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+}
+
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.page));
+
+function generate(){
+let t=document.getElementById('topic').value.trim()||'your business';
+let d=document.getElementById('details').value.trim();
+let k=document.getElementById('kind').value;
+let s='';
+
+if(k==='caption')s=`✨ Discover ${t}! ${d}\n\nMessage us today to find out more. #SouthAfrica #SmallBusiness`;
+if(k==='promo')s=`🌟 NEED A HAND WITH ${t.toUpperCase()}?\n${d}\nQuality service, friendly support. Get in touch today!`;
+if(k==='video')s=`[Opening shot] Show ${t}.\n[Voice-over] “Looking for ${t}? ${d} We are ready to help.”\n[Closing shot] Add your contact details and a clear call to action.`;
+if(k==='ideas')s=`1. Introduce ${t} and explain who it helps.\n2. Show a before-and-after or a quick demonstration.\n3. Answer a common customer question.\n4. Share a customer review (with permission).\n5. Explain your offer: ${d}`;
+
+document.getElementById('draft').textContent=s;
+localStorage.setItem('hh_draft',s);
+}
+
+function copyDraft(){
+navigator.clipboard?.writeText(document.getElementById('draft').textContent);
+}
+
+function poster(){
+let c=document.getElementById('poster'),x=c.getContext('2d');
+x.fillStyle='#101e35';x.fillRect(0,0,900,1100);
+x.fillStyle='#f4b942';x.fillRect(0,0,900,24);
+x.fillStyle='white';x.textAlign='center';x.font='bold 72px Arial';
+wrap(x,document.getElementById('headline').value||'YOUR BUSINESS',450,430,740,90);
+x.fillStyle='#f4b942';x.font='bold 38px Arial';
+wrap(x,document.getElementById('subline').value||'CONTACT US TODAY',450,650,720,55);
+x.fillStyle='#c7d2e3';x.font='26px Arial';
+x.fillText('HUSTLEHUB SA • YOUR BUSINESS STARTS HERE',450,1000);
+}
+
+function wrap(ctx,s,cx,y,max,line){
+let words=s.split(' '),row='';
+for(let w of words){
+let test=row+w+' ';
+if(ctx.measureText(test).width>max&&row){
+ctx.fillText(row,cx,y);row=w+' ';y+=line;
+}else row=test;
+}
+ctx.fillText(row,cx,y);
+}
+
+function downloadPoster(){
+let a=document.createElement('a');
+a.download='hustlehub-poster.png';
+a.href=document.getElementById('poster').toDataURL('image/png');
+a.click();
+}
+
+function makeCV(){
+let s=`${cvname.value}\n${cvcontact.value}\n\nPROFILE\n${cvabout.value}\n\nSKILLS\n${cvskills.value}\n\nEDUCATION & EXPERIENCE\n${cvhistory.value}`;
+cvout.textContent=s;
+localStorage.setItem('hh_cv',s);
+}
+
+function copyCV(){
+navigator.clipboard?.writeText(cvout.textContent);
+}
+
+let jobs=JSON.parse(localStorage.getItem('hh_jobs')||'[]');
+
+function renderJobs(){
+document.getElementById('jobs').textContent=jobs.length?
+jobs.map((j,i)=>`${i+1}. ${j.name} — R${j.price}`).join('\n'):
+'No jobs added yet.';
+}
+
+function addJob(){
+let name=document.getElementById('job').value.trim();
+let price=document.getElementById('price').value;
+if(!name)return;
+jobs.push({name,price:price||'0'});
+localStorage.setItem('hh_jobs',JSON.stringify(jobs));
+document.getElementById('job').value='';
+renderJobs();
+}
+
+renderJobs();
+</script>
+</body>
+</html>
